@@ -10,6 +10,23 @@
 #include <assert.h>
 #include "rngs.h"
 
+#define RED  "\x1B[31m"
+#define GREEN  "\x1B[32m"
+#define CYAN   "\x1B[36m"
+#define RESETCOLOR "\x1B[0m"
+
+void myAssert(int expr, int expected, char *msg) {
+    printf(CYAN "%s: " RESETCOLOR, msg);
+    if (expr == expected) {
+        printf(GREEN "PASS!\n" RESETCOLOR);
+        return;
+    }
+    else {
+        printf(RED "FAILED: %d expected, but got %d.\n" RESETCOLOR, expected, expr);
+        return;
+    }
+}
+
 int main() {
     int seed = 1000;
     int numPlayer = 2;
@@ -39,16 +56,21 @@ int main() {
     G.handCount[currentPlayer] = handCount;
     memcpy(G.hand[currentPlayer], handForTest, sizeof(int) * handCount); // set player's hand
 
+    myAssert(1, 2, "simple test");
+    myAssert(1, 1, "simple test2");
+    handleBaron(currentPlayer, 1, &G);
+
     // play the mine card, discarding copper card and tries to get smithy
-    playCard(minePos, copperPos, gold, 0, &G);
+    // playCard(minePos, copperPos, gold, 0, &G);
 
     // count the number of copper and gold in hand after playing mine
-    int nCopper = 0;
-    int nGold = 0;
-    for (int i = 0; i < G.handCount[currentPlayer]; i++)
-    {
-        if (G.hand[currentPlayer][i] == copper) nCopper++;
-        if (G.hand[currentPlayer][i] == gold) nGold++;
+    // int nCopper = 0;
+    // int nGold = 0;
+    // for (int i = 0; i < G.handCount[currentPlayer]; i++)
+    // {
+    //     if (G.hand[currentPlayer][i] == copper) nCopper++;
+    //     if (G.hand[currentPlayer][i] == gold) nGold++;
+
     printf("All tests passed!\n");
 
     return 0;
