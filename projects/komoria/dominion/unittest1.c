@@ -9,42 +9,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
-
-#define RED  "\x1B[31m"
-#define GREEN  "\x1B[32m"
-#define CYAN   "\x1B[36m"
-#define BOLD "\x1b[1m"
-#define RESETFONT "\x1B[0m"
-
-void myAssertEqual(int expr, int expected, char *msg) {
-    printf(CYAN "%s: " RESETFONT, msg);
-    if (expr == expected) {
-        printf(GREEN "PASS!: got %d\n" RESETFONT, expr);
-        return;
-    }
-    else {
-        printf(RED "FAILED: %d expected, but got %d.\n" RESETFONT, expected, expr);
-        return;
-    }
-}
-
-int countCardInHand(int currentPlayer, int card, struct gameState *G) {
-    int count = 0;
-    for (int i = 0; i < G->handCount[currentPlayer]; i++) {
-        if (G->hand[currentPlayer][i] == card)
-            count++;
-    }
-    return count;
-}
-
-int countCardInDiscard(int currentPlayer, int card, struct gameState *G) {
-    int count = 0;
-    for (int i = 0; i < G->discardCount[currentPlayer]; i++) {
-        if (G->discard[currentPlayer][i] == card)
-            count++;
-    }
-    return count;
-}
+#include "unittestutil.h"
 
 int main() {
     int seed = 1000;
