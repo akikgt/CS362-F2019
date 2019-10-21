@@ -182,7 +182,35 @@ int main() {
     handleBaron(currentPlayer, choice1, &G);
 
     // verify the result
-    printf("--- No estate card in hand ---\n");
+    printf("--- No estate card in hand with choice1 = positive ---\n");
+    myAssertEqual(G.numBuys, beforeNumBuy + 1,
+                  "Check Buy count");
+    myAssertEqual(G.handCount[currentPlayer], beforeHandCount - 1,
+                  "Check hand count");
+    myAssertEqual(countCardInHand(currentPlayer, baron, &G), 0,
+                  "Check baron discarded after use");
+    myAssertEqual(countCardInHand(currentPlayer, estate, &G), 0,
+                  "Check estate card in hand");
+    myAssertEqual(G.supplyCount[estate], beforeNumEstate - 1,
+                  "Check supply count of estate card");
+    myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 1,
+                  "Check the number of estate cards in discard");
+
+    // reset&set variables
+    memset(&G, 23, sizeof(struct gameState));   // clear the game state
+    r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+    G.handCount[currentPlayer] = handCount;
+    memcpy(G.hand[currentPlayer], handWithoutEstate, sizeof(int) * handCount); // set player's hand
+    beforeNumBuy = G.numBuys; // save the numBuys
+    beforeHandCount = G.handCount[currentPlayer];
+    beforeNumEstate = G.supplyCount[estate];
+    choice1 = -1;
+
+    // call refactored function
+    handleBaron(currentPlayer, choice1, &G);
+
+    // verify the result
+    printf("--- No estate card in hand with choice1 = negative ---\n");
     myAssertEqual(G.numBuys, beforeNumBuy + 1,
                   "Check Buy count");
     myAssertEqual(G.handCount[currentPlayer], beforeHandCount - 1,
