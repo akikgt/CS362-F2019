@@ -16,6 +16,9 @@ testDrawCard: testDrawCard.c dominion.o rngs.o
 unittest1: unittest1.c dominion.o rngs.o unittestutil.c unittestutil.h
 	gcc -o unittest1 -g  unittest1.c unittestutil.c dominion.o rngs.o $(CFLAGS)
 
+unittest2: unittest2.c dominion.o rngs.o unittestutil.c unittestutil.h
+	gcc -o unittest2 -g  unittest2.c unittestutil.c dominion.o rngs.o $(CFLAGS)
+
 interface.o: interface.h interface.c
 	gcc -c interface.c -g  $(CFLAGS)
 

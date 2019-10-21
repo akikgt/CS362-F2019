@@ -14,7 +14,6 @@
 int main() {
     int seed = 1000;
     int numPlayer = 2;
-    // int maxBonus = 10;
     int r;
     int choice1, choice2, choice3;
 
