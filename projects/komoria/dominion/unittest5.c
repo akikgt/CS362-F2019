@@ -17,7 +17,8 @@ int main() {
     int seed = 1000;
     int numPlayer = 2;
     int r;
-    int choice1, choice2, choice3;
+    int choice1, choice2;
+    int result;
 
     // set kingdom cards
     int k[10] = {adventurer, council_room, feast, gardens, mine
@@ -26,13 +27,13 @@ int main() {
     struct gameState G;
     int currentPlayer = 0; 
     int nextPlayer = 1; 
-    int handForTest[5] = {minion, mine, copper, gold, estate};
-    int beforeNumActions, beforeHandCount, beforeCoins;
+    int handForTest[5] = {mine, copper, copper, gold, estate};
+    int beforeNumActions, beforeHandCount, beforeSilverInSupply;
 
-    printf (BOLD "--- UNIT TEST 2 STARTS ---\n" RESETFONT);
+    printf (BOLD "--- UNIT TEST 5 STARTS ---\n" RESETFONT);
 
     /* ------------------------------------------------ 
-     *  Testing minion with choice1 = 1
+     *  Testing invalid choices
      * ------------------------------------------------ 
     */
 
@@ -44,55 +45,102 @@ int main() {
     memcpy(G.hand[currentPlayer], handForTest, sizeof(int) * INITIAL_HANDCOUNT); // set player's hand
     beforeNumActions = G.numActions;
     beforeHandCount = G.handCount[currentPlayer];
-    beforeCoins = G.coins;
-    choice1 = 1;
-    choice2 = 0;
-
-    // call refactored function
-    handleMinion(currentPlayer, choice1, choice2, &G, 0);
-
-    // verify the result
-    printf("--- check minion with choice1 = 1 ---\n");
-    myAssertEqual(G.numActions, beforeNumActions + 1,
-                  "Check Actions count");
-    myAssertEqual(countCardInHand(currentPlayer, minion, &G), 0,
-                  "Check minion discarded after use");
-    myAssertEqual(G.coins, beforeCoins + 2,
-                  "Check coins");
-    myAssertEqual(G.handCount[nextPlayer], INITIAL_HANDCOUNT,
-                  "Check other player's hand count unaffected");
-
-    /* ------------------------------------------------ 
-     *  Testing minion with choice2 = 1
-     * ------------------------------------------------ 
-    */
-
-    // reset&set variables
-    memset(&G, 23, sizeof(struct gameState));   // clear the game state
-    r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
-    G.handCount[currentPlayer] = INITIAL_HANDCOUNT;
-    G.handCount[nextPlayer] = INITIAL_HANDCOUNT; // set other player's hand
-    memcpy(G.hand[currentPlayer], handForTest, sizeof(int) * INITIAL_HANDCOUNT); // set player's hand
-    beforeNumActions = G.numActions;
-    beforeHandCount = G.handCount[currentPlayer];
-    beforeCoins = G.coins;
     choice1 = 0;
-    choice2 = 1;
 
+    printf("--- Check invalid choice cases ---\n");
+    // Case: choice1 is invalid
+    choice1 = 5; // position 5 is estate card. it is less than copper 
+    choice2 = gold;
     // call refactored function
-    handleMinion(currentPlayer, choice1, choice2, &G, 0);
-
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
     // verify the result
-    printf("--- check minion with choice1 = 1 ---\n");
-    myAssertEqual(G.numActions, beforeNumActions + 1,
-                  "Check Actions count");
-    myAssertEqual(G.handCount[currentPlayer], 4,
-                  "Check current player's hand count after choice2");
-    myAssertEqual(G.coins, beforeCoins,
-                  "Check coins not updated");
-    myAssertEqual(G.handCount[nextPlayer], 4,
-                  "Check other player's hand count changed");
+    myAssertEqual(result, -1,
+                  "Check invalid chice1 (less than copper enum value)");
 
-    printf (BOLD "--- UNIT TEST 2 ENDS ---\n" RESETFONT);
+    // Case: choice1 is invalid
+    choice1 = 0; // postion 0 is mine itself and it is greater than gold
+    choice2 = gold;
+    // call refactored function
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // verify the result
+    myAssertEqual(result, -1,
+                  "Check invalid chice1 (greater than gold enum value)");
+
+    // Case: choice2 is invalid (less than copper)
+    choice1 = 1;
+    choice2 = curse;
+    // call refactored function
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // verify the result
+    myAssertEqual(result, -1,
+                  "Check invalid chioice2 (less than copper enum value) case");
+    // Case: choice2 is invalid (greater than gold)
+    choice1 = 1;
+    choice2 = treasure_map;
+    // call refactored function
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // verify the result
+    myAssertEqual(result, -1,
+                  "Check invalid chioice2 (greater than gold enum value) case");
+
+    // Case: choice2 is invalid (invalid card value)
+    choice1 = 1;
+    choice2 = -1;
+    // call refactored function
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // verify the result
+    myAssertEqual(result, -1,
+                  "Check invalid choice2 (invalid card enum value -1)");
+
+    // Case: choice2 is invalid (invalid card value)
+    choice1 = 1;
+    choice2 = 27;
+    // call refactored function
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // verify the result
+    myAssertEqual(result, -1,
+                  "Check invalid choice2 (invalid card enum value 27)");
+
+    // Case: the cost of choice2 card is greather than choice1 + 3
+    choice1 = 1; // copper card (cost 0)
+    choice2 = gold; // the cost of gold is 6
+    // call refactored function
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // verify the result
+    myAssertEqual(result, -1,
+                  "Check invalid choice2 (the cost of the card is too high)");
+
+
+    /* ------------------------------------------------ 
+     *  Testing valid choices
+     * ------------------------------------------------ 
+    */
+
+    printf("--- Check valid case. Discard a copper and get a silver card---\n");
+    // reset&set variables
+    memset(&G, 23, sizeof(struct gameState));   // clear the game state
+    r = initializeGame(numPlayer, k, seed, &G); // initialize a new game
+    G.handCount[currentPlayer] = INITIAL_HANDCOUNT;
+    G.handCount[nextPlayer] = INITIAL_HANDCOUNT; // set other player's hand
+    memcpy(G.hand[currentPlayer], handForTest, sizeof(int) * INITIAL_HANDCOUNT); // set player's hand
+    beforeNumActions = G.numActions;
+    beforeHandCount = G.handCount[currentPlayer];
+    beforeSilverInSupply = G.supplyCount[silver]; // save the supply count of silver
+
+    choice1 = 1; // copper card
+    choice2 = silver; // the cost of silver is 3
+    int beforeCopperInHand = countCardInHand(currentPlayer, copper, &G);
+
+    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    myAssertEqual(G.handCount[currentPlayer], beforeHandCount - 1,
+                  "Check the hand count");
+    myAssertEqual(G.supplyCount[silver], beforeSilverInSupply - 1,
+                  "Check the supply count of silver card after Mine");
+    myAssertEqual(countCardInHand(currentPlayer, silver, &G), 1,
+                  "Check the number of silver cards in hand");
+    myAssertEqual(countCardInHand(currentPlayer, copper, &G), beforeCopperInHand - 1,
+                  "Check the copper card discarded correctly");
+
+    printf (BOLD "--- UNIT TEST 5 ENDS ---\n" RESETFONT);
     return 0;
 }
