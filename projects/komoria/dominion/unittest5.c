@@ -1,5 +1,5 @@
 /* -----------------------------------------------------------------------
- * Unit test for my refactored Minion function handleMinion
+ * Unit test for my refactored Mine function handleMine
  * -----------------------------------------------------------------------
  */
 
@@ -17,7 +17,7 @@ int main() {
     int seed = 1000;
     int numPlayer = 2;
     int r;
-    int choice1, choice2;
+    int choice1, choice2, choice3;
 
     // set kingdom cards
     int k[10] = {adventurer, council_room, feast, gardens, mine
