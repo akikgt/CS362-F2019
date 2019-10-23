@@ -29,7 +29,8 @@ int main() {
     int handForTest[5] = {minion, mine, copper, gold, estate};
     int beforeNumActions, beforeHandCount, beforeCoins;
 
-    printf (BOLD "--- UNIT TEST 2 STARTS ---\n" RESETFONT);
+    printf ("--------------------------\n");
+    printf ("--- UNIT TEST 2 STARTS ---\n");
 
     /* ------------------------------------------------ 
      *  Testing minion with choice1 = 1
@@ -93,6 +94,7 @@ int main() {
     myAssertEqual(G.handCount[nextPlayer], 4,
                   "Check other player's hand count changed");
 
-    printf (BOLD "--- UNIT TEST 2 ENDS ---\n" RESETFONT);
+    printf ("--- UNIT TEST 2 ENDS ---\n");
+    printf ("--------------------------\n");
     return 0;
 }

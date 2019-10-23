@@ -30,14 +30,12 @@ unittest5: unittest5.c dominion.o rngs.o unittestutil.c unittestutil.h
 
 unittestresults: unittest1 unittest2 unittest3 unittest4 unittest5 
 	@./unittest1 > unittestresults.out
-	@gcov dominion.c -b -f >> unittestresults.out
 	@./unittest2 >> unittestresults.out
-	@gcov dominion.c -b -f >> unittestresults.out
 	@./unittest3 >> unittestresults.out
-	@gcov dominion.c -b -f >> unittestresults.out
 	@./unittest4 >> unittestresults.out
-	@gcov dominion.c -b -f >> unittestresults.out
 	@./unittest5 >> unittestresults.out
+	@echo "gcov results" >> unittestresults.out
+	@echo "--------------------------" >> unittestresults.out
 	@gcov dominion.c -b -f >> unittestresults.out
 
 interface.o: interface.h interface.c

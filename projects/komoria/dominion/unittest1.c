@@ -15,7 +15,7 @@ int main() {
     int seed = 1000;
     int numPlayer = 2;
     int r;
-    int choice1, choice2;
+    int choice1;
 
     // set kingdom cards
     int k[10] = {adventurer, council_room, feast, gardens, mine
@@ -24,11 +24,11 @@ int main() {
     struct gameState G;
     int currentPlayer = 0; 
     int handCount = 5;
-    int maxHandCount = 5;
     int handForTest[5] = {baron, mine, copper, gold, estate};
     int beforeNumBuy, beforeHandCount, beforeNumEstate;
 
-    printf (BOLD "--- UNIT TEST 1 STARTS ---\n" RESETFONT);
+    printf ("--------------------------\n");
+    printf ("--- UNIT TEST 1 STARTS ---\n");
 
     /* ------------------------------------------------ 
      *  Testing Baron with choice1 = positive
@@ -188,6 +188,7 @@ int main() {
     myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 1,
                   "Check the number of estate cards in discard");
 
-    printf (BOLD "--- UNIT TEST 1 ENDS ---\n" RESETFONT);
+    printf ("--- UNIT TEST 1 ENDS ---\n");
+    printf ("--------------------------\n");
     return 0;
 }

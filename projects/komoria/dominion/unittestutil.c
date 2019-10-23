@@ -7,13 +7,13 @@
 #include "unittestutil.h"
 
 void myAssertEqual(int expr, int expected, char *msg) {
-    printf(CYAN "%s: " RESETFONT, msg);
+    printf("%s: ", msg);
     if (expr == expected) {
-        printf(GREEN "PASS!: got %d\n" RESETFONT, expr);
+        printf("PASS!: got %d\n", expr);
         return;
     }
     else {
-        printf(RED "FAILED: %d expected, but got %d.\n" RESETFONT, expected, expr);
+        printf("FAILED: %d expected, but got %d.\n", expected, expr);
         return;
     }
 }

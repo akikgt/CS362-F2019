@@ -30,7 +30,8 @@ int main() {
     int handForTest[5] = {mine, copper, copper, gold, estate};
     int beforeNumActions, beforeHandCount, beforeSilverInSupply;
 
-    printf (BOLD "--- UNIT TEST 5 STARTS ---\n" RESETFONT);
+    printf ("--------------------------\n");
+    printf ("--- UNIT TEST 5 STARTS ---\n");
 
     /* ------------------------------------------------ 
      *  Testing invalid choices
@@ -141,6 +142,7 @@ int main() {
     myAssertEqual(countCardInHand(currentPlayer, copper, &G), beforeCopperInHand - 1,
                   "Check the copper card discarded correctly");
 
-    printf (BOLD "--- UNIT TEST 5 ENDS ---\n" RESETFONT);
+    printf("--- UNIT TEST 5 ENDS ---\n");
+    printf("--------------------------\n");
     return 0;
 }

@@ -51,7 +51,8 @@ int main() {
     int handForTest[5] = {tribute, mine, copper, gold, estate};
     int beforeNumActions, beforeHandCount, beforeCoins;
 
-    printf (BOLD "--- UNIT TEST 4 STARTS ---\n" RESETFONT);
+    printf ("--------------------------\n");
+    printf ("--- UNIT TEST 4 STARTS ---\n");
 
     /* ------------------------------------------------ 
      *  Testing tribute main cases
@@ -188,6 +189,7 @@ int main() {
                       "Check the hand count");
     }
 
-    printf (BOLD "--- UNIT TEST 4 ENDS ---\n" RESETFONT);
+    printf("--- UNIT TEST 4 ENDS ---\n");
+    printf("--------------------------\n");
     return 0;
 }

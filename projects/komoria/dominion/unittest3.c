@@ -30,7 +30,8 @@ int main() {
     int handForTest[5] = {ambassador, mine, estate, estate, gold};
     int beforeNumActions, beforeHandCount, beforeCoins, beforeSupplyCount;
 
-    printf (BOLD "--- UNIT TEST 3 STARTS ---\n" RESETFONT);
+    printf ("--------------------------\n");
+    printf ("--- UNIT TEST 3 STARTS ---\n");
 
     /* ------------------------------------------------ 
      *  Testing invalid choices
@@ -110,8 +111,9 @@ int main() {
                       "Check the hand count");
         myAssertEqual(G.discardCount[nextPlayer], beforeDiscardCountOfOtherPlayer + 1,
                       "Check the dicard count of next player becomes +1");
-   }
+    }
 
-   printf(BOLD "--- UNIT TEST 3 ENDS ---\n" RESETFONT);
-   return 0;
+    printf("--- UNIT TEST 3 ENDS ---\n");
+    printf("--------------------------\n");
+    return 0;
 }
