@@ -936,7 +936,7 @@ int handleMine(int currentPlayer, int choice1, int choice2, struct gameState *st
     // int j = state->hand[currentPlayer][choice1]; //store card we will trash
     int j = choice1; // introduce bug2
 
-    if (state->hand[currentPlayer][choice1] < copper && state->hand[currentPlayer][choice1] > gold) // introduce bug1
+    if (state->hand[currentPlayer][choice1] > copper && state->hand[currentPlayer][choice1] > gold) // introduce bug1
     {
         return -1;
     }
