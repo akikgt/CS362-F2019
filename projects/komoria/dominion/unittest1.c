@@ -25,7 +25,7 @@ int main() {
     int currentPlayer = 0; 
     int handCount = 5;
     int handForTest[5] = {baron, mine, copper, gold, estate};
-    int beforeNumBuy, beforeHandCount, beforeNumEstate;
+    int beforeNumBuy, beforeHandCount, beforeNumEstate, beforeCoins;
 
     printf ("--------------------------\n");
     printf ("--- UNIT TEST 1 STARTS ---\n");
@@ -43,6 +43,7 @@ int main() {
     beforeNumBuy = G.numBuys; // save the numBuys
     beforeHandCount = G.handCount[currentPlayer];
     beforeNumEstate = G.supplyCount[estate];
+    beforeCoins = G.coins;
     choice1 = 1;
 
     // call refactored function
@@ -62,6 +63,8 @@ int main() {
                   "Check supply count of estate card");
     myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 0,
                   "Check the number of estate cards in discard");
+    myAssertEqual(G.coins, beforeCoins + 4,
+                  "Check coins");
 
     /* ------------------------------------------------ 
      *  Testing Baron with choice1 = 0
@@ -76,6 +79,7 @@ int main() {
     beforeNumBuy = G.numBuys; // save the numBuys
     beforeHandCount = G.handCount[currentPlayer];
     beforeNumEstate = G.supplyCount[estate];
+    beforeCoins = G.coins;
     choice1 = 0;
 
     // call refactored function
@@ -93,6 +97,8 @@ int main() {
                   "Check supply count of estate card");
     myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 1,
                   "Check the number of estate cards in discard");
+    myAssertEqual(G.coins, beforeCoins,
+                  "Check coins");
 
     /* ------------------------------------------------ 
      *  Testing Baron with choice1 = negative
@@ -107,6 +113,7 @@ int main() {
     beforeNumBuy = G.numBuys; // save the numBuys
     beforeHandCount = G.handCount[currentPlayer];
     beforeNumEstate = G.supplyCount[estate];
+    beforeCoins = G.coins;
     choice1 = -1;
 
     // call refactored function
@@ -124,6 +131,8 @@ int main() {
                   "Check supply count of estate card");
     myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 1,
                   "Check the number of estate cards in discard");
+    myAssertEqual(G.coins, beforeCoins,
+                  "Check coins");
 
 
     /* ------------------------------------------------ 
@@ -140,6 +149,7 @@ int main() {
     beforeNumBuy = G.numBuys; // save the numBuys
     beforeHandCount = G.handCount[currentPlayer];
     beforeNumEstate = G.supplyCount[estate];
+    beforeCoins = G.coins;
     choice1 = 1;
 
     // call refactored function
@@ -159,6 +169,8 @@ int main() {
                   "Check supply count of estate card");
     myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 1,
                   "Check the number of estate cards in discard");
+    myAssertEqual(G.coins, beforeCoins,
+                  "Check coins");
 
     // reset&set variables
     memset(&G, 23, sizeof(struct gameState));   // clear the game state
@@ -168,6 +180,7 @@ int main() {
     beforeNumBuy = G.numBuys; // save the numBuys
     beforeHandCount = G.handCount[currentPlayer];
     beforeNumEstate = G.supplyCount[estate];
+    beforeCoins = G.coins;
     choice1 = -1;
 
     // call refactored function
@@ -187,6 +200,8 @@ int main() {
                   "Check supply count of estate card");
     myAssertEqual(countCardInDiscard(currentPlayer, estate, &G), 1,
                   "Check the number of estate cards in discard");
+    myAssertEqual(G.coins, beforeCoins,
+                  "Check coins");
 
     printf ("--- UNIT TEST 1 ENDS ---\n");
     printf ("--------------------------\n");
