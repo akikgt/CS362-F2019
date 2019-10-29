@@ -21,12 +21,15 @@ char inputChar()
 char *inputString()
 {
     // TODO: rewrite this function
-
+    char stringCharPool[] = "abcdefghijklmnopqrstuvwxyz";
     // assume string length is less than or equal to 5
+    // all string consist of all lowercase alphabet characters
     char *str = malloc(6);
     str[5] = '\0';
     for (int i = 0; i < 5; i++) {
-      str[i] = inputChar();
+      // str[i] = inputChar();
+      int idx = rand() % strlen(stringCharPool);
+      str[i] = stringCharPool[idx];
     }
     return str;
 }
