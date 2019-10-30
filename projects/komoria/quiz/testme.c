@@ -18,16 +18,25 @@ char *inputString()
 {
     // TODO: rewrite this function
 
+    static int counter = 0; // counter for breaking the loop
+
     // assume string length is less than or equal to 5
     // all string consist of all lowercase alphabet characters
     char stringCharPool[] = "abcdefghijklmnopqrstuvwxyz";
     char *str = malloc(6);
+
+    // stop testme() loop when counter over 10 million
+    int MAX_ITERATION = 10000000;
+    if (counter > MAX_ITERATION)
+      exit(1);
 
     str[5] = '\0';
     for (int i = 0; i < 5; i++) {
       int idx = rand() % strlen(stringCharPool);
       str[i] = stringCharPool[idx];
     }
+
+    counter++;
     return str;
 }
 
