@@ -9,25 +9,22 @@ char inputChar()
 
     // char pool = all lowercase alphabet + parentheses + space -> 33 characters
     char charPool[] = "abcdefghijklmnopqrstuvwxyz[](){} ";
-
     int idx = rand() % strlen(charPool);
 
-    // printf("%d\n", strlen(charPool));
-    // printf("%c\n", charPool[idx]);
-    // exit(1);
     return charPool[idx];
 }
 
 char *inputString()
 {
     // TODO: rewrite this function
-    char stringCharPool[] = "abcdefghijklmnopqrstuvwxyz";
+
     // assume string length is less than or equal to 5
     // all string consist of all lowercase alphabet characters
+    char stringCharPool[] = "abcdefghijklmnopqrstuvwxyz";
     char *str = malloc(6);
+
     str[5] = '\0';
     for (int i = 0; i < 5; i++) {
-      // str[i] = inputChar();
       int idx = rand() % strlen(stringCharPool);
       str[i] = stringCharPool[idx];
     }
