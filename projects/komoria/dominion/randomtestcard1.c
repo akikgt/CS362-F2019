@@ -12,6 +12,19 @@
 #include "randomtestutil.h"
 #include <math.h>
 
+void checkHandleBaron(int p, int choice1, struct gameState *post) {
+    // save pre-game state
+    struct gameState pre;
+    memcpy(&pre, post, sizeof(struct gameState));
+
+    // play baron
+    handleBaron(p, choice1, post);
+    
+    if (pre.numBuys + 1 != post->numBuys) {
+        printf("something wrong choice1 == %d\n", choice1);
+    }
+}
+
 
 int main() {
     struct gameState G;
@@ -48,7 +61,7 @@ int main() {
         int choice1 = round(Random() * -2) + 1;
 
         // run the refactored function
-        handleBaron(p, choice1, &G);
+        checkHandleBaron(p, choice1, &G);
     }
 
     printf("--- baron random test end ---\n");
