@@ -10,12 +10,17 @@
 #include <assert.h>
 #include "rngs.h"
 #include "randomtestutil.h"
+#include <math.h>
+
 
 int main() {
     struct gameState G;
     memset(&G, 23, sizeof(struct gameState));   // clear the game state
 
     printf("--- baron random test ---\n");
+
+    SelectStream(0);
+    PutSeed(-1);
 
     for (int n = 0; n < 2000; n++) {
         // generate pure random game state
@@ -40,7 +45,7 @@ int main() {
         G.hand[p][baronPos] = baron;
 
         // set choice {negative, 0, positive}
-        int choice1 = floor(Random() * -2) + 1;
+        int choice1 = round(Random() * -2) + 1;
 
         // run the refactored function
         handleBaron(p, choice1, &G);
