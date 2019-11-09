@@ -12,6 +12,7 @@
 #include "randomtestutil.h"
 #include <math.h>
 
+
 void checkHandleBaron(int p, int choice1, struct gameState *post) {
     // save pre-game state
     struct gameState pre;
@@ -23,6 +24,22 @@ void checkHandleBaron(int p, int choice1, struct gameState *post) {
     if (pre.numBuys + 1 != post->numBuys) {
         printf("something wrong choice1 == %d\n", choice1);
     }
+
+    // check the player has an estate card
+    int hasEstate = 0;
+    for (int i = 0; i < pre.handCount[p]; i++) {
+        if (pre.hand[p][i] == estate)
+            hasEstate = 1;
+    }
+
+    if (hasEstate & choice1) {
+        printf("estate in your hand\n");
+    }
+    else {
+        printf("estate not in your hand\n");
+
+    }
+
 }
 
 
@@ -35,6 +52,7 @@ int main() {
     SelectStream(0);
     PutSeed(-1);
 
+    // random generator
     for (int n = 0; n < 2000; n++) {
         // generate pure random game state
         for (int i = 0; i < sizeof(struct gameState); i++) {
