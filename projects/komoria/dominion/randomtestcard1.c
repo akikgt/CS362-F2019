@@ -21,23 +21,22 @@ void checkHandleBaron(int p, int choice1, struct gameState *post) {
     // play baron
     handleBaron(p, choice1, post);
     
-    if (pre.numBuys + 1 != post->numBuys) {
-        printf("something wrong choice1 == %d\n", choice1);
-    }
+    // check buys
+    myAssertEqual(post->numBuys, pre.numBuys + 1, "Check Buys");
 
-    // check the player has an estate card
-    int hasEstate = 0;
-    for (int i = 0; i < pre.handCount[p]; i++) {
-        if (pre.hand[p][i] == estate)
-            hasEstate = 1;
-    }
+    // check the number of estate cards in hand
+    int numEstateInHand = 0;
+    numEstateInHand = countCardInHand(p, estate, &pre);
 
-    if (hasEstate & choice1) {
-        printf("estate in your hand\n");
+    if (numEstateInHand & choice1) {
+        // discard estate card and get 4 coins pattern
+        myAssertEqual(post->coins, pre.coins + 4, "Check coins");
+        myAssertEqual(countCardInHand(p, estate, post), numEstateInHand - 1, "Check numEstate after discarding");
     }
     else {
-        printf("estate not in your hand\n");
-
+        // gain estate card pattern
+        if (pre.supplyCount[estate] >= 1)
+            myAssertEqual(countCardInHand(p, estate, post), numEstateInHand + 1, "Check numEstate after gain");
     }
 
 }
