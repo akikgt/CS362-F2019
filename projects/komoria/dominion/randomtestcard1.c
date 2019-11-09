@@ -9,18 +9,12 @@
 #include <stdio.h>
 #include <assert.h>
 #include "rngs.h"
-
-// set player's hand by random
-int setRandomHand(int player, struct gameState *G) {
-    for (int i = 0; i < G->handCount[player]; i++) {
-        G->hand[player][i] = floor(Random() * treasure_map); // set 0 to treasure_map(last card in enum)
-    }
-}
+#include "randomtestutil.h"
 
 int main() {
     struct gameState G;
     memset(&G, 23, sizeof(struct gameState));   // clear the game state
-    // verify the result
+
     printf("--- baron random test ---\n");
 
     for (int n = 0; n < 2000; n++) {

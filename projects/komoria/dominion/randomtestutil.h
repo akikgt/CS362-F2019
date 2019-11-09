@@ -1,0 +1,1 @@
+int setRandomHand(int player, struct gameState *G);
