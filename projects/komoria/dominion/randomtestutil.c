@@ -13,6 +13,20 @@ void setRandomHand(int player, struct gameState *G) {
     }
 }
 
+// set player's deck by random
+void setRandomDeck(int player, struct gameState *G) {
+    for (int i = 0; i < G->deckCount[player]; i++) {
+        G->deck[player][i] = floor(Random() * treasure_map); // set 0 to treasure_map(last card in enum)
+    }
+}
+
+// set player's discard pile by random
+void setRandomDiscard(int player, struct gameState *G) {
+    for (int i = 0; i < G->discardCount[player]; i++) {
+        G->discard[player][i] = floor(Random() * treasure_map); // set 0 to treasure_map(last card in enum)
+    }
+}
+
 void myAssertEqual(int expr, int expected, char *msg) {
     printf("%s: ", msg);
     if (expr == expected) {

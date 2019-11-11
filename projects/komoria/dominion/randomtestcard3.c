@@ -12,21 +12,37 @@
 #include "randomtestutil.h"
 #include <math.h>
 
+enum CARD_TYPE {
+    ACTION = 1,
+    TREASURE,
+    VICTORY
+};
 
-// void checkHandleMinion(int p, int choice1, struct gameState *post) {
-    // // save pre-game state
-    // struct gameState pre;
-    // memcpy(&pre, post, sizeof(struct gameState));
+int typeOfCard(int card) {
+    if (card == copper || card == silver || card == gold)
+    { //Treasure cards
+        return TREASURE;
+    }
+    else if (card == estate || card == duchy || card == province || card == gardens || card == great_hall)
+    { //Victory Card Found
+        return VICTORY;
+    }
+    else
+    { //Action Card
+        return ACTION;
+    }
 
-    // // play baron
-    // handleBaron(p, choice1, post);
-    
-    // // check buys
-    // myAssertEqual(post->numBuys, pre.numBuys + 1, "Check Buys");
+    return -1;
+}
 
-    // // check the number of estate cards in hand
-    // int numEstateInHand = 0;
-    // numEstateInHand = countCardInHand(p, estate, &pre);
+void checkHandleTribute(int p, int np, struct gameState *post, int tributePos) {
+    // save pre-game state
+    struct gameState pre;
+    memcpy(&pre, post, sizeof(struct gameState));
+
+    // play tribute
+    handleTribute(p, np, post, tributePos);
+
 
     // if (numEstateInHand & choice1) {
     //     // discard estate card and get 4 coins pattern
@@ -38,8 +54,7 @@
     //     if (pre.supplyCount[estate] >= 1)
     //         myAssertEqual(countCardInHand(p, estate, post), numEstateInHand + 1, "Check numEstate after gain");
     // }
-
-// }
+}
 
 
 int main() {
@@ -52,8 +67,7 @@ int main() {
     PutSeed(-1);
 
     // random generator
-    for (int n = 0; n < 2000; n++) {
-        printf("%d\n", n);
+    for (int n = 0; n < 5000; n++) {
         // generate pure random game state
         for (int i = 0; i < sizeof(struct gameState); i++) {
             ((char *)&G)[i] = floor(Random() * 256);
@@ -65,8 +79,8 @@ int main() {
 
         // set each player's card count
         for (int i = 0; i < G.numPlayers; i++) {
-            G.deckCount[i] = floor(Random() * 100);
-            G.discardCount[i] = floor(Random() * 100);
+            G.deckCount[i] = floor(Random() * 50);
+            G.discardCount[i] = floor(Random() * 50);
             G.handCount[i] = floor(Random() * (MAX_HAND - 1)) + 1;
             G.playedCardCount = floor(Random() * MAX_DECK); // discard function uses playedCard array
         }
@@ -82,9 +96,13 @@ int main() {
         int tributePos = floor(Random() * G.handCount[p]);
         G.hand[p][tributePos] = tribute;
 
+        // set next player's deck and discard pile
+        setRandomDeck(np, &G);
+        setRandomDiscard(np, &G);
+
         // run the refactored function
         // checkHandleBaron(p, choice1, &G);
-        handleTribute(p, np, &G, tributePos);
+        checkHandleTribute(p, np, &G, tributePos);
     }
 
     printf("--- tribute random test end ---\n");

@@ -13,32 +13,36 @@
 #include <math.h>
 
 
-void checkHandleMinion(int p, int choice1, struct gameState *post) {
-    // // save pre-game state
-    // struct gameState pre;
-    // memcpy(&pre, post, sizeof(struct gameState));
+void checkHandleMinion(int p, int choice1, int choice2, struct gameState *post, int minionPos) {
+    // save pre-game state
+    struct gameState pre;
+    memcpy(&pre, post, sizeof(struct gameState));
 
-    // // play baron
-    // handleBaron(p, choice1, post);
+    // play minion
+    handleMinion(p, choice1, choice2, post, minionPos);
     
-    // // check buys
-    // myAssertEqual(post->numBuys, pre.numBuys + 1, "Check Buys");
+    myAssertEqual(countCardInHand(p, minion, post), countCardInHand(p, minion, &pre), "Check Minion discarded correctly after playing");
+    myAssertEqual(post->numActions, pre.numActions + 1, "Check Actions");
 
-    // // check the number of estate cards in hand
-    // int numEstateInHand = 0;
-    // numEstateInHand = countCardInHand(p, estate, &pre);
+    if (choice1) {
+        myAssertEqual(post->coins, pre.coins + 2, "Check coins");
+    }
+    else if (choice2) {
+        myAssertEqual(post->handCount[p], 4, "Check current player's handCount after minion");
 
-    // if (numEstateInHand & choice1) {
-    //     // discard estate card and get 4 coins pattern
-    //     myAssertEqual(post->coins, pre.coins + 4, "Check coins");
-    //     myAssertEqual(countCardInHand(p, estate, post), numEstateInHand - 1, "Check numEstate after discarding");
-    // }
-    // else {
-    //     // gain estate card pattern
-    //     if (pre.supplyCount[estate] >= 1)
-    //         myAssertEqual(countCardInHand(p, estate, post), numEstateInHand + 1, "Check numEstate after gain");
-    // }
-
+        for (int i = 0; i < post->numPlayers; i++) {
+            if (i == p)
+                continue;
+            
+            if (pre.handCount[i] >= 5) {
+                myAssertEqual(post->handCount[i], 4, "Check other player's handCount after minion");
+            }
+            else {
+                myAssertEqual(post->handCount[i], pre.handCount[i], "Check other player's handCount after minion");
+            }
+        }
+        
+    }
 }
 
 
@@ -84,9 +88,8 @@ int main() {
         int choice1 = round(Random() * -2) + 1;
         int choice2 = round(Random() * -2) + 1;
 
-        // run the refactored function
-        // checkHandleBaron(p, choice1, &G);
-        handleMinion(p, choice1, choice2, &G, minionPos);
+        // check refactored function
+        checkHandleMinion(p, choice1, choice2, &G, minionPos);
     }
 
     printf("--- minion random test end ---\n");
