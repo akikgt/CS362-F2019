@@ -58,7 +58,7 @@ int main() {
             ((char *)&G)[i] = floor(Random() * 256);
         }
 
-        // modify pure random game state to run the code
+        /*  modify pure random game state to run the code */
         // set player
         int p = floor(Random() * 2);
 

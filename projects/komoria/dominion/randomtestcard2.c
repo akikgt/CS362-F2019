@@ -62,7 +62,7 @@ int main() {
             ((char *)&G)[i] = floor(Random() * 256);
         }
 
-        // modify pure random game state to run the code
+        /*  modify pure random game state to run the code */
         // set numPlayers
         G.numPlayers = floor(Random() * (MAX_PLAYERS - 1)) + 1;
 
@@ -80,11 +80,11 @@ int main() {
         // set current player's hand
         setRandomHand(p, &G);
 
-        // The player must have at least one baron in hand
+        // The player must have at least one minion in hand to play it
         int minionPos = floor(Random() * G.handCount[p]);
         G.hand[p][minionPos] = minion;
 
-        // set choices {negative, 0, positive}
+        // set choices to {negative, 0, positive}
         int choice1 = round(Random() * -2) + 1;
         int choice2 = round(Random() * -2) + 1;
 

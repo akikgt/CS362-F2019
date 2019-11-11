@@ -42,18 +42,61 @@ void checkHandleTribute(int p, int np, struct gameState *post, int tributePos) {
 
     // play tribute
     handleTribute(p, np, post, tributePos);
+    myAssertEqual(countCardInHand(p, tribute, post), countCardInHand(p, tribute, &pre), "Check the tribute card discarded correctly after playing");
 
+    int tributeRevealedCards[2] = {-1, -1};
+    int bonusActions = 0;
+    int bonusCoins = 0;
+    int bonusHands = 0;
 
-    // if (numEstateInHand & choice1) {
-    //     // discard estate card and get 4 coins pattern
-    //     myAssertEqual(post->coins, pre.coins + 4, "Check coins");
-    //     myAssertEqual(countCardInHand(p, estate, post), numEstateInHand - 1, "Check numEstate after discarding");
-    // }
-    // else {
-    //     // gain estate card pattern
-    //     if (pre.supplyCount[estate] >= 1)
-    //         myAssertEqual(countCardInHand(p, estate, post), numEstateInHand + 1, "Check numEstate after gain");
-    // }
+    if (pre.deckCount[np] + pre.discardCount[np] <= 1) {
+        if (pre.deckCount[np] == 1) {
+            tributeRevealedCards[0] = pre.deck[np][0];
+        }
+        else if (pre.discardCount[np] == 1) {
+            tributeRevealedCards[0] = pre.discard[np][0];
+        }
+    }
+    else {
+        if (pre.deckCount[np] == 0) {
+            tributeRevealedCards[0] = pre.discard[np][pre.discardCount[np] - 1];
+            tributeRevealedCards[1] = pre.discard[np][pre.discardCount[np] - 2];
+        }
+        else if (pre.deckCount[np] == 1) {
+            tributeRevealedCards[0] = pre.deck[np][0];
+        }
+        else { // there are more than or equal to 2 cards in next player's deck
+            tributeRevealedCards[0] = pre.deck[np][pre.deckCount[np] - 1];
+            tributeRevealedCards[1] = pre.deck[np][pre.deckCount[np] - 2];
+        }
+    }
+
+    // handle duplicated cards
+    if (tributeRevealedCards[0] == tributeRevealedCards[1]) {
+        tributeRevealedCards[1] = -1;
+    }
+
+    // calculate bonus
+    for (int i = 0; i < 2; i++) {
+        int type = typeOfCard(tributeRevealedCards[i]);
+        switch (type) {
+            case ACTION:
+                bonusActions += 2;
+                break;
+            case TREASURE:
+                bonusCoins += 2;
+                break;
+            case VICTORY:
+                bonusHands += 2;
+                break;
+            default:
+                break;
+        }
+    }
+
+    myAssertEqual(post->numActions, pre.numActions + bonusActions, "Check Actions after tribute");
+    myAssertEqual(post->coins, pre.coins + bonusCoins, "Check Coins after tribute");
+    myAssertEqual(post->handCount[p], pre.handCount[p] + bonusHands, "Check HandCount after tribute");
 }
 
 
@@ -73,7 +116,7 @@ int main() {
             ((char *)&G)[i] = floor(Random() * 256);
         }
 
-        // modify pure random game state to run the code
+        /* modify pure random game state to run the code */
         // set numPlayers
         G.numPlayers = floor(Random() * (MAX_PLAYERS - 1)) + 1;
 
@@ -92,7 +135,7 @@ int main() {
 
         // set current player's hand
         setRandomHand(p, &G);
-        // The player must have at least one tribute in hand
+        // The player must have at least one tribute in hand to play it
         int tributePos = floor(Random() * G.handCount[p]);
         G.hand[p][tributePos] = tribute;
 
