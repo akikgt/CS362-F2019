@@ -53,6 +53,7 @@ int main() {
 
     // random generator
     for (int n = 0; n < 2000; n++) {
+        printf("%d\n", n);
         // generate pure random game state
         for (int i = 0; i < sizeof(struct gameState); i++) {
             ((char *)&G)[i] = floor(Random() * 256);
@@ -64,8 +65,8 @@ int main() {
 
         // set each player's card count
         for (int i = 0; i < G.numPlayers; i++) {
-            G.deckCount[i] = floor(Random() * MAX_DECK);
-            G.discardCount[i] = floor(Random() * MAX_DECK);
+            G.deckCount[i] = floor(Random() * 100);
+            G.discardCount[i] = floor(Random() * 100);
             G.handCount[i] = floor(Random() * (MAX_HAND - 1)) + 1;
             G.playedCardCount = floor(Random() * MAX_DECK); // discard function uses playedCard array
         }
