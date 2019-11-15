@@ -52,7 +52,7 @@ int main() {
     PutSeed(-1);
 
     // random generator
-    for (int n = 0; n < 2000; n++) {
+    for (int n = 0; n < 1000; n++) {
         // generate pure random game state
         for (int i = 0; i < sizeof(struct gameState); i++) {
             ((char *)&G)[i] = floor(Random() * 256);
@@ -66,6 +66,9 @@ int main() {
         G.deckCount[p] = floor(Random() * MAX_DECK);
         G.discardCount[p] = floor(Random() * MAX_DECK);
         G.handCount[p] = floor(Random() * (MAX_HAND - 1)) + 1;
+
+        // set estate card count in the supply
+        G.supplyCount[estate] = floor(Random() * 12);
 
         // set hand
         setRandomHand(p, &G);

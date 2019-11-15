@@ -56,7 +56,7 @@ int main() {
     PutSeed(-1);
 
     // random generator
-    for (int n = 0; n < 2000; n++) {
+    for (int n = 0; n < 1000; n++) {
         // generate pure random game state
         for (int i = 0; i < sizeof(struct gameState); i++) {
             ((char *)&G)[i] = floor(Random() * 256);
