@@ -45,7 +45,7 @@ randomtestcard2: randomtestcard2.c dominion.o rngs.o randomtestutil.c randomtest
 randomtestcard3: randomtestcard3.c dominion.o rngs.o randomtestutil.c randomtestutil.h
 	gcc  -o randomtestcard3 -g  randomtestcard3.c randomtestutil.c dominion.o rngs.o $(CFLAGS)
 
-runalltests: randomtestcard1 randomtestcard2 randomtestcard3 unittest1 unittest2 unittest3 unittest4 unittest5
+alltests: randomtestcard1 randomtestcard2 randomtestcard3 unittest1 unittest2 unittest3 unittest4 unittest5
 	./unittest1 > alltestsresult.out
 	./unittest2 >> alltestsresult.out
 	./unittest3 >> alltestsresult.out
@@ -70,4 +70,5 @@ clean:
 	unittest5 \
 	randomtestcard1 \
 	randomtestcard2 \
-	randomtestcard3
+	randomtestcard3 \
+	alltestsresult.out
