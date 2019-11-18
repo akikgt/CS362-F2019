@@ -71,7 +71,7 @@ int main() {
         for (int i = 0; i < G.numPlayers; i++) {
             G.deckCount[i] = floor(Random() * MAX_DECK);
             G.discardCount[i] = floor(Random() * MAX_DECK);
-            G.handCount[i] = floor(Random() * (MAX_HAND - 1)) + 1;
+            G.handCount[i] = floor(Random() * 5);
             G.playedCardCount = floor(Random() * MAX_DECK); // discard function uses playedCard array
         }
 
