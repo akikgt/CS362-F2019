@@ -47,7 +47,7 @@ int main() {
     choice1 = 1;
 
     // call refactored function
-    handleBaron(currentPlayer, choice1, &G);
+    baronR(choice1, currentPlayer, &G, NULL);
 
     // verify the result
     printf("--- baron with choice1 = 1 ---\n");
@@ -83,7 +83,7 @@ int main() {
     choice1 = 0;
 
     // call refactored function
-    handleBaron(currentPlayer, choice1, &G);
+    baronR(choice1, currentPlayer, &G, NULL);
 
     // verify the result
     printf("--- baron with choice1 = 0 ---\n");
@@ -117,7 +117,7 @@ int main() {
     choice1 = -1;
 
     // call refactored function
-    handleBaron(currentPlayer, choice1, &G);
+    baronR(choice1, currentPlayer, &G, NULL);
 
     // verify the result
     printf("--- baron with choice1 = -1 ---\n");
@@ -153,7 +153,7 @@ int main() {
     choice1 = 1;
 
     // call refactored function
-    handleBaron(currentPlayer, choice1, &G);
+    baronR(choice1, currentPlayer, &G, NULL);
 
     // verify the result
     printf("--- No estate card in hand with choice1 = positive ---\n");
@@ -184,7 +184,7 @@ int main() {
     choice1 = -1;
 
     // call refactored function
-    handleBaron(currentPlayer, choice1, &G);
+    baronR(choice1, currentPlayer, &G, NULL);
 
     // verify the result
     printf("--- No estate card in hand with choice1 = negative ---\n");

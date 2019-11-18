@@ -37,6 +37,7 @@ int typeOfCard(int card) {
 }
 
 int main() {
+    int tributeRevealedCard[2] = {-1, -1};
     int seed = 1000;
     int numPlayer = 2;
     int r;
@@ -91,7 +92,8 @@ int main() {
             G.deck[nextPlayer][1] = revealedCards[j];
 
             // call refactored function
-            handleTribute(currentPlayer, nextPlayer, &G, 0);
+            // handleTribute(currentPlayer, nextPlayer, &G, 0);
+            tributeR(currentPlayer, nextPlayer, tributeRevealedCard, &G, NULL);
 
             printf("--- check tribute with Action: %d, Treasure: %d, Victory: %d ---\n", actions, treasures, victories);
             // verify the result
@@ -127,7 +129,8 @@ int main() {
     G.discard[nextPlayer][1] = estate;
 
     // call refactored function
-    handleTribute(currentPlayer, nextPlayer, &G, 0);
+    // handleTribute(currentPlayer, nextPlayer, &G, 0);
+    tributeR(currentPlayer, nextPlayer, tributeRevealedCard, &G, NULL);
 
     printf("--- check next player's deckCount == 0 case --- \n");
     // verify the result
@@ -178,7 +181,8 @@ int main() {
         }
 
         // call refactored function
-        handleTribute(currentPlayer, nextPlayer, &G, 0);
+        // handleTribute(currentPlayer, nextPlayer, &G, 0);
+        tributeR(currentPlayer, nextPlayer, tributeRevealedCard, &G, NULL);
 
         // verify the result
         myAssertEqual(G.coins, beforeCoins + 2 * treasures,

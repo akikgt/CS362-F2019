@@ -53,7 +53,8 @@ int main() {
     choice1 = 5; // position 5 is estate card. it is less than copper 
     choice2 = gold;
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chice1 (less than copper enum value)");
@@ -62,7 +63,8 @@ int main() {
     choice1 = 0; // postion 0 is mine itself and it is greater than gold
     choice2 = gold;
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chice1 (greater than gold enum value)");
@@ -71,7 +73,8 @@ int main() {
     choice1 = 1;
     choice2 = curse;
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chioice2 (less than copper enum value) case");
@@ -79,7 +82,8 @@ int main() {
     choice1 = 1;
     choice2 = treasure_map;
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chioice2 (greater than gold enum value) case");
@@ -88,7 +92,8 @@ int main() {
     choice1 = 1;
     choice2 = -1;
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid choice2 (invalid card enum value -1)");
@@ -97,7 +102,8 @@ int main() {
     choice1 = 1;
     choice2 = 27;
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid choice2 (invalid card enum value 27)");
@@ -106,7 +112,8 @@ int main() {
     choice1 = 1; // copper card (cost 0)
     choice2 = gold; // the cost of gold is 6
     // call refactored function
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid choice2 (the cost of the card is too high)");
@@ -132,7 +139,8 @@ int main() {
     choice2 = silver; // the cost of silver is 3
     int beforeCopperInHand = countCardInHand(currentPlayer, copper, &G);
 
-    result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleMine(currentPlayer, choice1, choice2, &G, 0);
+    result = mineR(choice1, choice2, currentPlayer, &G, 0);
     myAssertEqual(G.handCount[currentPlayer], beforeHandCount - 1,
                   "Check the hand count");
     myAssertEqual(G.supplyCount[silver], beforeSilverInSupply - 1,

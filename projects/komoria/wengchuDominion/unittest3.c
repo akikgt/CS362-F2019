@@ -53,14 +53,16 @@ int main() {
     // Case: choice2 > 2
     choice2 = 3;
     // call refactored function
-    result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    result = ambassadorR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chioice2(greater than 2) case");
     // Case: choice2 < 0
     choice2 = -1;
     // call refactored function
-    result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    result = ambassadorR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chioice2(less than 0) case");
@@ -68,7 +70,8 @@ int main() {
     choice1 = 0;
     choice2 = 2;
     // call refactored function
-    result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    result = ambassadorR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid chioice1 case");
@@ -76,7 +79,8 @@ int main() {
     choice1 = 1; // try to discard a mine card
     choice2 = 2; // try to discard two mine card
     // call refactored function
-    result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    // result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+    result = ambassadorR(choice1, choice2, currentPlayer, &G, 0);
     // verify the result
     myAssertEqual(result, -1,
                   "Check invalid choice2(greater than the num of cards to be discarded) case");
@@ -103,7 +107,8 @@ int main() {
 
         printf("--- Check valid choice case. choice2 = %d ---\n", choice2);
         // call refactored function
-        result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+        // result = handleAmbassador(currentPlayer, choice1, choice2, &G, 0);
+        result = ambassadorR(choice1, choice2, currentPlayer, &G, 0);
         // verify the result
         myAssertEqual(G.supplyCount[estate], beforeSupplyCount + choice2 - (numPlayer - 1),
                       "Check the Supply cards");

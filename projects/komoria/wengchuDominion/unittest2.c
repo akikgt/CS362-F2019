@@ -50,7 +50,8 @@ int main() {
     choice2 = 0;
 
     // call refactored function
-    handleMinion(currentPlayer, choice1, choice2, &G, 0);
+    // handleMinion(currentPlayer, choice1, choice2, &G, 0);
+    minionR(choice1, choice2, currentPlayer, &G, 0, NULL);
 
     // verify the result
     printf("--- check minion with choice1 = 1 ---\n");
@@ -81,7 +82,8 @@ int main() {
     choice2 = 1;
 
     // call refactored function
-    handleMinion(currentPlayer, choice1, choice2, &G, 0);
+    // handleMinion(currentPlayer, choice1, choice2, &G, 0);
+    minionR(choice1, choice2, currentPlayer, &G, 0, NULL);
 
     // verify the result
     printf("--- check minion with choice1 = 1 ---\n");
@@ -112,7 +114,8 @@ int main() {
     choice2 = 1;
 
     // call refactored function
-    handleMinion(currentPlayer, choice1, choice2, &G, 0);
+    // handleMinion(currentPlayer, choice1, choice2, &G, 0);
+    minionR(choice1, choice2, currentPlayer, &G, 0, NULL);
 
     // verify the result
     printf("--- check minion with other player's hand is less than 5 ---\n");
