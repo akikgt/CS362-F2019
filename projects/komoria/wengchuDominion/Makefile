@@ -45,11 +45,16 @@ randomtestcard2: randomtestcard2.c dominion.o rngs.o randomtestutil.c randomtest
 randomtestcard3: randomtestcard3.c dominion.o rngs.o randomtestutil.c randomtestutil.h
 	gcc  -o randomtestcard3 -g  randomtestcard3.c randomtestutil.c dominion.o rngs.o $(CFLAGS)
 
-randomtestresults: randomtestcard1 randomtestcard2 randomtestcard3
-	./randomtestcard1 > randomtestresults.out
-	./randomtestcard2 >> randomtestresults.out
-	./randomtestcard3 >> randomtestresults.out
-	gcov dominion.c -bf >> randomtestresults.out
+runalltests: randomtestcard1 randomtestcard2 randomtestcard3 unittest1 unittest2 unittest3 unittest4 unittest5
+	./unittest1 > alltestsresult.out
+	./unittest2 >> alltestsresult.out
+	./unittest3 >> alltestsresult.out
+	./unittest4 >> alltestsresult.out
+	./unittest5 >> alltestsresult.out
+	./randomtestcard1 >> alltestsresult.out
+	./randomtestcard2 >> alltestsresult.out
+	./randomtestcard3 >> alltestsresult.out
+	gcov dominion.c -bf >> alltestsresult.out
 
 player: player.c interface.o
 	gcc -o player player.c -g  dominion.o rngs.o interface.o $(CFLAGS)
