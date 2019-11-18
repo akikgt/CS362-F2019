@@ -41,7 +41,9 @@ void checkHandleTribute(int p, int np, struct gameState *post, int tributePos) {
     memcpy(&pre, post, sizeof(struct gameState));
 
     // play tribute
-    handleTribute(p, np, post, tributePos);
+    int bonus;
+    int initialRevealedCards[2] = {-1, -1};
+    tributeR(p, np, initialRevealedCards, post, &bonus);
     myAssertEqual(countCardInHand(p, tribute, post), countCardInHand(p, tribute, &pre), "Check the tribute card discarded correctly after playing");
 
     int tributeRevealedCards[2] = {-1, -1};

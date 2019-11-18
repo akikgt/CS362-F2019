@@ -19,7 +19,8 @@ void checkHandleMinion(int p, int choice1, int choice2, struct gameState *post, 
     memcpy(&pre, post, sizeof(struct gameState));
 
     // play minion
-    handleMinion(p, choice1, choice2, post, minionPos);
+    int bonus = 0;
+    minionR(choice1, choice2, p, post, minionPos, &bonus);
     
     myAssertEqual(countCardInHand(p, minion, post), countCardInHand(p, minion, &pre), "Check Minion discarded correctly after playing");
     myAssertEqual(post->numActions, pre.numActions + 1, "Check Actions");
@@ -76,6 +77,7 @@ int main() {
 
         // set current player
         int p = floor(Random() * G.numPlayers);
+        G.whoseTurn = p;
 
         // set current player's hand
         setRandomHand(p, &G);

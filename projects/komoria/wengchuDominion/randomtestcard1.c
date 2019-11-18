@@ -18,8 +18,9 @@ void checkHandleBaron(int p, int choice1, struct gameState *post) {
     struct gameState pre;
     memcpy(&pre, post, sizeof(struct gameState));
 
+    int bonus;
     // play baron
-    handleBaron(p, choice1, post);
+    baronR(choice1, p, post, &bonus);
     
     // check buys
     myAssertEqual(post->numBuys, pre.numBuys + 1, "Check Buys");
