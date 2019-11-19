@@ -86,7 +86,7 @@ int main() {
     minionR(choice1, choice2, currentPlayer, &G, 0, NULL);
 
     // verify the result
-    printf("--- check minion with choice1 = 1 ---\n");
+    printf("--- check minion with choice2 = 1 ---\n");
     myAssertEqual(G.numActions, beforeNumActions + 1,
                   "Check Actions count");
     myAssertEqual(G.handCount[currentPlayer], 4,
