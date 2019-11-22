@@ -39,12 +39,14 @@ int main() {
     int currentPlayerHand[5] = {ambassador, silver, silver, gold, estate};
     memcpy(G.hand[0], currentPlayerHand, sizeof(int) * 5); // set player's hand
     int handCountBefore = G.handCount[currentPlayer];
-    int nextPlayerHandCountBefore = G.handCount[nextPlayer];
+    int nextPlayerDiscardCountBefore = G.discardCount[nextPlayer];
 
     int result = cardEffect(ambassador, 1, 1, 0, &G, 0, NULL);
     assertEqual(result, 0, "Check cardEffect returns 0");
     assertEqual(G.handCount[currentPlayer], handCountBefore - 2, "Check current player's handCount");
-    assertEqual(G.handCount[nextPlayer], nextPlayerHandCountBefore + 1, "Check next player's handCount");
+    assertEqual(G.discardCount[nextPlayer], nextPlayerDiscardCountBefore + 1, "Check next player's discardCount");
+    if (G.discardCount[nextPlayer] - 1 >= 0)
+        assertEqual(G.discard[nextPlayer][G.discardCount[nextPlayer] - 1], silver, "Check the top card of next player's discard pile");
 
     printf("--- UNIT TEST 10 ENDS ---\n");
     printf("--------------------------\n");
