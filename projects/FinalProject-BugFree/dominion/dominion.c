@@ -953,6 +953,11 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
         return 0;
 
     case minion:
+        // Either choice1 or choice2 must be true, otherwise failed
+        if (!choice1 && !choice2) {
+            return -1;
+        }
+
         //+1 action
         state->numActions++;
 
