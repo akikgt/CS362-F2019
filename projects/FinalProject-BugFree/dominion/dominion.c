@@ -1068,7 +1068,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             tributeRevealedCards[1] = -1;
         }
 
-        for (i = 0; i <= 2; i ++) {
+        for (i = 0; i < 2; i ++) {
             if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
                 state->coins += 2;
             }
@@ -1077,10 +1077,13 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 drawCard(currentPlayer, state);
                 drawCard(currentPlayer, state);
             }
-            else { //Action Card
+            else if (tributeRevealedCards[i] >= 7 && tributeRevealedCards[i] <= 26) { //Action Card
                 state->numActions = state->numActions + 2;
             }
         }
+
+        // discard tribute itself
+        discardCard(handPos, currentPlayer, state, 0);
 
         return 0;
 
