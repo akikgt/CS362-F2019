@@ -23,6 +23,18 @@ runtests: testDrawCard
 
 # ------------------------------------------------
 # For group project: unit tests
+unittest1: unittest1.c dominion.o rngs.o
+	gcc  -o unittest1 -g  unittest1.c dominion.o rngs.o $(CFLAGS)
+
+unittest2: unittest2.c dominion.o rngs.o
+	gcc  -o unittest2 -g  unittest2.c dominion.o rngs.o $(CFLAGS)
+
+unittest3: unittest3.c dominion.o rngs.o
+	gcc  -o unittest3 -g  unittest3.c dominion.o rngs.o $(CFLAGS)
+
+unittest4: unittest4.c dominion.o rngs.o
+	gcc  -o unittest4 -g  unittest4.c dominion.o rngs.o $(CFLAGS)
+  
 unittest9: unittest9.c dominion.o rngs.o
 	gcc  -o unittest9 -g  unittest9.c dominion.o rngs.o $(CFLAGS)
 
@@ -32,12 +44,12 @@ unittest10: unittest10.c dominion.o rngs.o
 unittest11: unittest11.c dominion.o rngs.o
 	gcc  -o unittest11 -g  unittest11.c dominion.o rngs.o $(CFLAGS)
 
-unittestresults: unittest9 unittest10 unittest11
+unittestresults: unittest1 unittest2 unittest3 unittest4 unittest9 unittest10 unittest11
 	@echo "--- UNIT TEST RESULTS ---" > unittestresults.out
-	# ./unittest1
-	# ./unittest2
-	# ./unittest3
-	# ./unittest4
+	./unittest1 >> unittestresults.out
+	./unittest2 >> unittestresults.out
+	./unittest3 >> unittestresults.out
+	./unittest4 >> unittestresults.out
 	# ./unittest5
 	# ./unittest6
 	# ./unittest7
