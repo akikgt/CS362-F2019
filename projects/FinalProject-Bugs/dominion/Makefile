@@ -45,9 +45,9 @@ unittest10: unittest10.c dominion.o rngs.o
 unittest11: unittest11.c dominion.o rngs.o
 	gcc  -o unittest11 -g  unittest11.c dominion.o rngs.o $(CFLAGS)
 
-unittestresults: unittest9 unittest10 unittest11
+unittestresults: unittest1 unittest2 unittest3 unittest4 unittest9 unittest10 unittest11
 	@echo "--- UNIT TEST RESULTS ---" > unittestresults.out
-  ./unittest1 >> unittestresults.out
+	./unittest1 >> unittestresults.out
 	./unittest2 >> unittestresults.out
 	./unittest3 >> unittestresults.out
 	./unittest4 >> unittestresults.out
