@@ -81,5 +81,5 @@ all: playdom player
 
 clean:
 	rm -f *.o playdom.exe playdom player player.exe  *.gcov *.gcda *.gcno *.so *.out testDrawCard testDrawCard.exe \
-	unittest1 unittest2 unittest3 unittest4 unittest5 unittest6 unittest7 unittest8 unittest9 unittest10 unittest11 \
+	unittest1 unittest2 unittest3 unittest4 Bug5_unittest Bug6_unittest Bug7_unittest Bug8_unittest unittest9 unittest10 unittest11 \
 	unittestresults.out
