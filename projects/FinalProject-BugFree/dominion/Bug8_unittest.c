@@ -155,6 +155,15 @@ int main() {
     printf("---------------------------------------\n");
     printf("TEST 4: TEST CARDEFFECT AND UPDATECOINS FUNCTION IN EMBARGO\n");
     G.coins = 0;    //initialize coins to 0
+
+    // set current player's hand
+    G.handCount[p] = 5;
+    G.hand[p][0] = embargo;
+    G.hand[p][1] = estate;
+    G.hand[p][2] = estate;
+    G.hand[p][3] = estate;
+    G.hand[p][4] = estate;
+
     cardEffect(22, 0, 0, 0, &G, 0, 2);    
     //Total coins 0 + 2 = 2
     if(G.coins == 2)

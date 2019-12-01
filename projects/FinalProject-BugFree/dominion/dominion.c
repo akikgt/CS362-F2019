@@ -1267,6 +1267,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
     case embargo:
         //+2 Coins
         //REMOVED:state->coins = state->coins + 2;
+        bonus = 2;
         updateCoins(currentPlayer, state, bonus);
 
         //see if selected pile is in play

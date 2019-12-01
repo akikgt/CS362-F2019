@@ -184,10 +184,10 @@ int main() {
         }
         
 
-//TEST 5:   CHECK THAT NUMACTIONS OF CURRENT PLAYER INCREASE +2
+//TEST 5:   CHECK THAT NUMACTIONS OF CURRENT PLAYER UNCHANGED
         printf("---------------------------------------\n");
-        printf("TEST 5: CHECK THAT NUMACTIONS OF CURRENT PLAYER INCREASE +2\n");
-        if((numActions_before + 2) == G.numActions)
+        printf("TEST 5: CHECK THAT NUMACTIONS OF CURRENT PLAYER UNCHANGED\n");
+        if((numActions_before) == G.numActions)
         {
             printf("    PASS: Current player has %d actions\n", G.numActions);
         }
@@ -208,10 +208,11 @@ int main() {
             printf("    FAIL: Current player has %d coins\n", G.coins);
         }
 
-//TEST 7:   CHECK THAT VICTORY CARD PLAYED INCREASES HAND COUNT BY +2 FROM DRAW CARD
+//TEST 7:   CHECK THAT VICTORY CARD PLAYED INCREASES HAND COUNT BY +1 FROM DRAW CARD
+// why +1 instead of +2 => because the card effect increases hand count by +2 but we have to discard Tribute itself after playing it.
         printf("---------------------------------------\n");
-        printf("TEST 7: CHECK THAT VICTORY CARD PLAYED INCREASES HAND COUNT BY +2 FROM DRAW CARD\n");
-        if((hand_before + 2) == G.handCount[p])
+        printf("TEST 7: CHECK THAT VICTORY CARD PLAYED INCREASES HAND COUNT BY +1 FROM DRAW CARD\n");
+        if((hand_before + 1) == G.handCount[p])
         {
             printf("    PASS: Current player has %d hand count\n", G.handCount[p]);
         }
