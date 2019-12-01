@@ -416,7 +416,16 @@ int isGameOver(struct gameState *state) {
     return 0;
 }
 
+/*****************************BUG LIST #5*********************
+*  
+*   BUG#5: In the scoreFor function, the discardCount is being 
+*           used for the deck count.
+*   CHANGE: Changed "state->discardCount[player]" to "state->deckCount[player]"
+*
+**************************************************************/
 int scoreFor (int player, struct gameState *state) {
+    // FUNCTION: Calculates a specific player’s current score
+    // RETURNS: returns score
 
     int i;
     int score = 0;
@@ -440,6 +449,8 @@ int scoreFor (int player, struct gameState *state) {
         };
         if (state->hand[player][i] == gardens) {
             score = score + ( fullDeckCount(player, 0, state) / 10 );
+            //int discardCard(int handPos, int currentPlayer, struct gameState *state, int trashFlag);
+            //score = score + ( discardCount(player, 0, state) / 10 );
         };
     }
 
@@ -467,7 +478,7 @@ int scoreFor (int player, struct gameState *state) {
     }
 
     //score from deck
-    for (i = 0; i < state->discardCount[player]; i++)
+    for (i = 0; i < state->deckCount[player]; i++)
     {
         if (state->deck[player][i] == curse) {
             score = score - 1;
@@ -681,6 +692,29 @@ int getCost(int cardNumber)
     return -1;
 }
 
+/*****************************BUG LIST #8*********************
+*
+*   BUG#8:  The number of bonus coins from actions does not appear to be 
+*           recorded correctly in cardEffect. 
+*
+*   CHANGES: 
+*       - In function "UpdateCoins()" removed state->coins = 0 (keeps resetting)
+*       - In function "case: baron"  -- added "bonus" argument
+*           - REMOVED: state->coins += 4;
+*           - ADDED: updateCoins(currentPlayer, state, bonus);      
+*       - In function "case: minion" -- added "bonus" argument
+*           - REMOVED: (if Choice1) state->coins = state->coins + 2;
+*           - ADDED: updateCoins(currentPlayer, state, bonus);
+*       - In function "case: tribute" -- added "bonus" argument
+*           - REMOVED: (Bottom - if card revealed is treasure card) state->coins += 2;
+*           - ADDED:  updateCoins(currentPlayer, state, bonus);
+*       - In function "case: Embargo" -- added "bonus" argument
+*           - REMOVED: (Begining of function) state->coins = state->coins + 2;
+*            - ADDED: updateCoins(currentPlayer, state, bonus);
+*       - In function "Feast" case is OK because it doesn't use coins
+*       - In function "Cutpurse " case is OK because it uses "updateCoins(currentPlayer, state, 2);" 
+*
+**************************************************************/
 int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState *state, int handPos, int *bonus)
 {
     int i;
@@ -749,6 +783,20 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
         return 0;
 
+/*****************************BUG LIST #6*********************
+*
+*   BUG#5:  The logic in the case statement for feast seems to be incorrect.  On line 762
+*           Instead of updating the coins tally, it should enter the while loop and allowing 
+*           players to gain a card up to 5 coins without taking into account how much coins 
+*           the player has.
+*
+*   CHANGE: 
+*       - Removed "updateCoins(currentPlayer, state, 5);"
+*       - Changed "state->coins < getCost(choice1))" to check that a coin is worth 5
+*           - Changed to "5 < getCost(choice1)"
+*       - In each condition of while loop, I added x=0 at the end of each to break the loop
+*
+**************************************************************/
     case feast:
         //gain card with cost up to 5
         //Backup hand
@@ -759,7 +807,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
         //Backup hand
 
         //Update Coins for Buy
-        updateCoins(currentPlayer, state, 5);
+        //REMOVED: updateCoins(currentPlayer, state, 5);
         x = 1;//Condition to loop on
         while( x == 1) {//Buy one card
             if (supplyCount(choice1, state) <= 0) {
@@ -769,13 +817,15 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 if (DEBUG) {
                     printf("Cards Left: %d\n", supplyCount(choice1, state));
                 }
+                x = 0;
             }
-            else if (state->coins < getCost(choice1)) {
+            else if (5 < getCost(choice1)) {
                 printf("That card is too expensive!\n");
 
                 if (DEBUG) {
                     printf("Coins: %d < %d\n", state->coins, getCost(choice1));
                 }
+                x = 0;
             }
             else {
 
@@ -784,12 +834,11 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 }
 
                 gainCard(choice1, state, 0, currentPlayer);//Gain the card
-                x = 0;//No more buying cards
 
                 if (DEBUG) {
                     printf("Deck Count: %d\n", state->handCount[currentPlayer] + state->deckCount[currentPlayer] + state->discardCount[currentPlayer]);
                 }
-
+                x = 0;//No more buying cards
             }
         }
 
@@ -895,7 +944,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             int card_not_discarded = 1;//Flag for discard set!
             while(card_not_discarded) {
                 if (state->hand[currentPlayer][p] == estate) { //Found an estate card!
-                    state->coins += 4;//Add 4 coins to the amount of coins
+                    //REMOVED: state->coins += 4;//Add 4 coins to the amount of coins
+                    bonus = 4;
+                    updateCoins(currentPlayer, state, bonus);
                     state->discard[currentPlayer][state->discardCount[currentPlayer]] = state->hand[currentPlayer][p];
                     state->discardCount[currentPlayer]++;
                     for (; p < state->handCount[currentPlayer]; p++) {
@@ -966,7 +1017,9 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
 		if (choice1)
         {
-            state->coins = state->coins + 2;
+            // REMOVED: state->coins = state->coins + 2;
+            bonus = 2;
+            updateCoins(currentPlayer, state, bonus);
         }
         else if (choice2)		//discard hand, redraw 4, other players with 5+ cards discard hand and draw 4
         {
@@ -1030,6 +1083,23 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
         discardCard(handPos, currentPlayer, state, 0);
         return 0;
 
+/*****************************BUG LIST #7*********************
+*
+*   BUG#5:  The logic in the case statement for feast seems to be incorrect.  On line 762
+*           Instead of updating the coins tally, it should enter the while loop and allowing 
+*           players to gain a card up to 5 coins without taking into account how much coins 
+*           the player has.
+*
+*   CHANGE: 
+*       - Changed parameter "tributeRevealedCards[2]" to "tributeRevealedCards[1]" -- should only
+*           be filled with 2 card array
+*       - Removed state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1 -- this is because
+*           opponent deck is already being decremented through "state->deckCount[nextPlayer]--;""
+*       - Added at the end of for-loop while tribute cards are revealed:
+*           - "state->discardCount[nextPlayer]++;"  -- To up discardCard count of nextPlayer
+*           - "state->discard[nextPlayer][i] = tributeRevealedCards[i];"" -- To add discarded card to nextPlayer's discard deck
+*
+**************************************************************/
     case tribute:
         if ((state->discardCount[nextPlayer] + state->deckCount[nextPlayer]) <= 1) {
             if (state->deckCount[nextPlayer] > 0) {
@@ -1039,6 +1109,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
             else if (state->discardCount[nextPlayer] > 0) {
                 tributeRevealedCards[0] = state->discard[nextPlayer][state->discardCount[nextPlayer]-1];
                 state->discardCount[nextPlayer]--;
+                getchar();
             }
             else {
                 //No Card to Reveal
@@ -1060,10 +1131,10 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 shuffle(nextPlayer,state);//Shuffle the deck
             }
             tributeRevealedCards[0] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
-            state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
+            //REMOVED = state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
             state->deckCount[nextPlayer]--;
             tributeRevealedCards[1] = state->deck[nextPlayer][state->deckCount[nextPlayer]-1];
-            state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
+            //REMOVED = state->deck[nextPlayer][state->deckCount[nextPlayer]--] = -1;
             state->deckCount[nextPlayer]--;
         }
 
@@ -1075,15 +1146,23 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
         for (i = 0; i < 2; i ++) {
             if (tributeRevealedCards[i] == copper || tributeRevealedCards[i] == silver || tributeRevealedCards[i] == gold) { //Treasure cards
-                state->coins += 2;
+                //REMOVED: state->coins += 2;
+                bonus = 2;
+                updateCoins(currentPlayer, state, bonus);
+                state->discardCount[nextPlayer]++;
+                state->discard[nextPlayer][i] = tributeRevealedCards[i];
             }
 
             else if (tributeRevealedCards[i] == estate || tributeRevealedCards[i] == duchy || tributeRevealedCards[i] == province || tributeRevealedCards[i] == gardens || tributeRevealedCards[i] == great_hall) { //Victory Card Found
                 drawCard(currentPlayer, state);
                 drawCard(currentPlayer, state);
+                state->discardCount[nextPlayer]++;
+                state->discard[nextPlayer][i] = tributeRevealedCards[i];
             }
             else if (tributeRevealedCards[i] >= 7 && tributeRevealedCards[i] <= 26) { //Action Card
                 state->numActions = state->numActions + 2;
+                state->discardCount[nextPlayer]++;
+                state->discard[nextPlayer][i] = tributeRevealedCards[i];
             }
         }
 
@@ -1187,7 +1266,8 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
 
     case embargo:
         //+2 Coins
-        state->coins = state->coins + 2;
+        //REMOVED:state->coins = state->coins + 2;
+        updateCoins(currentPlayer, state, bonus);
 
         //see if selected pile is in play
         if ( state->supplyCount[choice1] == -1 )
@@ -1351,10 +1431,12 @@ int gainCard(int supplyPos, struct gameState *state, int toFlag, int player)
 
 int updateCoins(int player, struct gameState *state, int bonus)
 {
+    // FUNCTION: Returns the count of a specific card in a specific player’s discard deck and hand.
+    // RETURNS: Returns 0 on success
     int i;
 
     //reset coin count
-    state->coins = 0;
+    // REMOVED: state->coins = 0;
 
     //add coins for each Treasure card in player's hand
     for (i = 0; i < state->handCount[player]; i++)
@@ -1374,7 +1456,7 @@ int updateCoins(int player, struct gameState *state, int bonus)
     }
 
     //add bonus
-    state->coins += bonus;
+    state->coins = state->coins + bonus;
 
     return 0;
 }

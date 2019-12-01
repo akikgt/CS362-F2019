@@ -35,6 +35,7 @@ int main() {
     printf ("--- UNIT TEST 9 STARTS ---\n");
     memset(&G, 23, sizeof(struct gameState));   // clear the game state
     initializeGame(2, k, 1000, &G); // initialize a new game
+    G.coins = 0;
 
     int currentPlayerHand[5] = {tribute, silver, silver, gold, estate};
     memcpy(G.hand[0], currentPlayerHand, sizeof(int) * 5); // set player's hand
@@ -45,7 +46,7 @@ int main() {
     G.deck[nextPlayer][1] = gold;
 
     // save previous state
-    int coinsBefore = G.coins;
+    int coinsBefore = 7; // 2 silver + 1 gold = 2*2 + 1*3 = 7
     int numActionsBefore = G.numActions;
     int handCountBefore = G.handCount[currentPlayer];
 
