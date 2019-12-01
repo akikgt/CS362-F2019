@@ -35,6 +35,18 @@ unittest3: unittest3.c dominion.o rngs.o
 
 unittest4: unittest4.c dominion.o rngs.o
 	gcc  -o unittest4 -g  unittest4.c dominion.o rngs.o $(CFLAGS)
+
+Bug5_unittest: Bug5_unittest.c dominion.o rngs.o interface.o
+	gcc -o Bug5_unittest -g  Bug5_unittest.c interface.o dominion.o rngs.o $(CFLAGS)
+
+Bug6_unittest: Bug6_unittest.c dominion.o rngs.o interface.o
+	gcc -o Bug6_unittest -g  Bug6_unittest.c interface.o dominion.o rngs.o $(CFLAGS)
+
+Bug7_unittest: Bug7_unittest.c dominion.o rngs.o interface.o
+	gcc -o Bug7_unittest -g  Bug7_unittest.c interface.o dominion.o rngs.o $(CFLAGS)
+
+Bug8_unittest: Bug8_unittest.c dominion.o rngs.o interface.o
+	gcc -o Bug8_unittest -g  Bug8_unittest.c interface.o dominion.o rngs.o $(CFLAGS)
   
 unittest9: unittest9.c dominion.o rngs.o
 	gcc  -o unittest9 -g  unittest9.c dominion.o rngs.o $(CFLAGS)
@@ -45,16 +57,16 @@ unittest10: unittest10.c dominion.o rngs.o
 unittest11: unittest11.c dominion.o rngs.o
 	gcc  -o unittest11 -g  unittest11.c dominion.o rngs.o $(CFLAGS)
 
-unittestresults: unittest1 unittest2 unittest3 unittest4 unittest9 unittest10 unittest11
+unittestresults: unittest1 unittest2 unittest3 unittest4 Bug5_unittest Bug6_unittest Bug7_unittest Bug8_unittest unittest9 unittest10 unittest11
 	@echo "--- UNIT TEST RESULTS ---" > unittestresults.out
 	./unittest1 >> unittestresults.out
 	./unittest2 >> unittestresults.out
 	./unittest3 >> unittestresults.out
 	./unittest4 >> unittestresults.out
-	# ./unittest5
-	# ./unittest6
-	# ./unittest7
-	# ./unittest8
+	./Bug5_unittest >> unittestresults.out
+	./Bug6_unittest >> unittestresults.out
+	./Bug7_unittest >> unittestresults.out
+	./Bug8_unittest >> unittestresults.out
 	./unittest9 >> unittestresults.out
 	./unittest10 >> unittestresults.out
 	./unittest11 >> unittestresults.out
