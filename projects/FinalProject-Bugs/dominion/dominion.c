@@ -776,6 +776,7 @@ int cardEffect(int card, int choice1, int choice2, int choice3, struct gameState
                 if (DEBUG) {
                     printf("Coins: %d < %d\n", state->coins, getCost(choice1));
                 }
+                x = 0; // because the bug in feast causes infinite loop and cannot test correctly, add this code to break the loop
             }
             else {
 
